@@ -1,0 +1,88 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'The Cave of Treasures'
+theme = 'typo'
+
+
+[taxonomies]
+tag = 'tags'
+
+[params]
+# Meta description
+description = "A Tech Blog"
+
+# Appearance settings
+theme = 'auto'
+colorPalette = 'base16-eighties'
+hideHeader = false
+
+# Intro on main page, content is markdown
+homeIntroContent = """
+Why is this site called the  Cave of Treasures? It's named after the work ܡܥܪܬ ܓܙܐ, (Maʿarraṯ ġazzē). I just like the name, and found it fitting for a site where I dump various notes, bits of writing, guide, tips, and translations, as well as my CV.
+
+The book itself is a Syriac universal history of the kind very popular in the ancient world (see translation section), purporting to tell the entire history of the world from Adam to Jesus. It is full of all kinds of interesting and colourful stories which attempt to fill in or expand on various bits of biblical lore.
+"""
+
+# Collection to display on home
+homeCollectionTitle = 'My CV'
+homeCollection = 'cv'
+
+# Lists parameters
+paginationSize = 100
+listSummaries = true
+listDateFormat = '2 Jan 2006'
+
+# Breadcrumbs
+[params.breadcrumbs]
+enabled = true
+showCurrentPage = true
+home = "Home"
+
+# Social icons
+[[params.social]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/user/"
+
+[[params.social]]
+name = "medium"
+url = "https://medium.com/@user"
+
+[[params.social]]
+name = "github"
+url = "https://github.com/user"
+
+# Main menu pages
+[[params.menu]]
+name = "home"
+url = "/"
+
+[[params.menu]]
+name = "posts"
+url = "/posts"
+
+[[params.menu]]
+name = "notes"
+url = "/notes"
+
+[[params.menu]]
+name = "about"
+url = "/about"
+
+[[params.menu]]
+name = "translations"
+url = "/translations"
+
+# Syntax highlight on code blocks
+[markup]
+[markup.highlight]
+style = 'algol'
+
+# Giscus comments
+[params.giscus]
+enable = false
+repo = "user/repo"
+repoid = "repoId"
+category = "General"
+categoryid = "categoryId"
+mapping = "pathname"
+theme = "preferred_color_scheme"

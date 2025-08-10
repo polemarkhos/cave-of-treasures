@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="http://localhost:1313/android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:1313/apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    How Do Containers Actually Work | The Cave of Treasures
+    
+</title>
+
+<link rel="canonical" href="http://localhost:1313/notes/how-do-containers-actually-work/"/>
+
+<meta property="og:url" content="http://localhost:1313/notes/how-do-containers-actually-work/">
+  <meta property="og:site_name" content="The Cave of Treasures">
+  <meta property="og:title" content="How Do Containers Actually Work">
+  <meta property="og:description" content="Putting some detail on the magic box abstraction.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="notes">
+    <meta property="article:published_time" content="2025-08-09T13:03:31+01:00">
+    <meta property="article:modified_time" content="2025-08-09T13:03:31+01:00">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.62d3d68b86ab80ae1348b39991816cb99fd247ba4c3436eaa0d0d7e260019425.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="http://localhost:1313/">The Cave of Treasures</a>
+    </h1>
+
+    <div class="header-menu">
+        
+
+        
+        
+
+        <p
+            class="small ">
+            <a href="/" >
+                /home
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/notes" >
+                /notes
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/translations" >
+                /translations
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">Home</a><span class="breadcrumbs-separator">/</span><a href="/notes/">Notes</a><span class="breadcrumbs-separator">/</span>
+        <a href="/notes/how-do-containers-actually-work/">How Do Containers Actually Work</a></div>
+
+
+<div >
+  <article>
+    <header class="single-intro-container">
+        
+        <h1 class="single-title">How Do Containers Actually Work</h1>
+        <p class="single-summary">Putting some detail on the magic box abstraction.</p>
+        
+        <div class="single-subsummary">
+          
+          <div>
+            
+            <p class="single-date">
+              <time datetime="2025-08-09T13:03:31&#43;01:00">August 9, 2025</time>
+            </p>
+          </div>
+        </div>
+        
+    </header>
+    
+    <div class="single-content">
+      <p>Docker, podman, etc. are all working off the back of free kernel stuff.</p>
+<ol>
+<li>the overlay filesystem (docker, maybe podman idk? def docker)</li>
+<li>cgroups, namespaces (see man 7 cgroups, man 7 namespaces etc)</li>
+</ol>
+<p>essentially building on the LXC linux container tech that was developed.
+When docker makes an images, it pulls all the file layers as specified in the
+Dockerfile, then it mashes them together into a union fs, also called an overlay
+fs (see overlayfs in the kernel docs). then it chroots to the top of that little
+fs and starts your process</p>
+<p>To start a new process on linux you have to fork, exec and wait. But for a
+containerised process you have to configure all the isolation and restriction
+first. container runtimes create these &ldquo;boxes&rdquo; of isolation and restriction.
+Containers are so widespread now there are even a lot of attempts at
+standardisation, like opencontainers, kubernetes CNI CRI and CSI etc.</p>
+<p>runc is widely used and can be used even without anything higher level. It was
+created jointly by CoreOS, Google, Docker and others as a tool and reference
+implementation of the Open Container Initiative runtime specification.</p>
+<p>A container runtime is responsible for all the parts of running a container that
+isn’t actually running the program itself.</p>
+<p>This all leads to an interesting thought - containers don&rsquo;t need images. Docker
+introduced this alongside a bunch of other helpful stuff that saw it quickly
+become the industry standard, but if you use runc you&rsquo;ll see that images don&rsquo;t
+factor into it.</p>
+<p>All runc needs is a bundle consisting of a config.json and a folder with the executable and any
+necessary dependencies. This is why you can run &ldquo;scratch&rdquo; containers, without
+any OS-like stuff at all. However often these bundle folders do contain a root
+style filesystem with /var, /etc /proc etc
+(use wagoodman/dive to inspect docker images)
+Even docker run uses ephemeral containers to build an image!</p>
+<p>Now you have a bunch of containers they need to play nice together. Docker or
+even containerd are a good example of container managers, who handle pulling
+images, unpacking bundles, container networking etc.</p>
+<p>Containerd started as a component of docker, but became its own thing. Under the
+hood it can use runc or any other runtime that implements the containerd-shim
+interface.</p>
+<p>the architecture is something like this:</p>
+<pre tabindex="0"><code>[docker] [docker-compose] - command line clients using dockerd api
+  v           v
+[        dockerd        ] -  container engine daemon, handles higher level tasks
+           |                 like login/build/inspect
+           v
+[        containerd     ] - this is what starts container runtimes, manages
+            |               networks etc
+            v 
+[    containerd-shim    ] - this abstracts the low level runtimes
+           |
+           v
+[        runc           ] - this actually implements the OCI container, preparing runtime for container, then exits.
+</code></pre><p>The container is a regular linux process, which sees a virtualised OS around it.</p>
+<p>So kubernetes - historically the kubelet used dockerd for launching groups of containers (i.e. pods), but this is deprecated now.
+Now, kubernetes uses a more generic CRI, e.g. containerd or cri-o, the kubelet communicates with the container runtime using a gRPC client, and below that, as usual there is a CRI shim that sits on top of runc and the actual container processes on the node.</p>
+<p>Actually, containers aren&rsquo;t simply processes. You can run multiple processes in a container if you want to. They are (obviously) CONTAINERS for processes. They are isolated, replicable environments to ensure your process runs the same way every time (among other things). Therefore we aren&rsquo;t restricted to using cgroups and namespaces for our actualy implementation of the container spec. We can even use VMs - anything goes as long as we hit the specification.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script src="/js/theme-switch.js"></script>
+<script defer src="/js/copy-code.js"></script>
+</html>

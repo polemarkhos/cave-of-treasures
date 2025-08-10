@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on The Cave of Treasures</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content in Home on The Cave of Treasures</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Aug 2025 13:48:27 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Dream of Scipio</title>
+      <link>http://localhost:1313/translations/latin/the-dream-of-scipio/</link>
+      <pubDate>Sat, 09 Aug 2025 13:48:27 +0100</pubDate>
+      <guid>http://localhost:1313/translations/latin/the-dream-of-scipio/</guid>
+      <description>The dream sequence from the sixth chapter of the de Re Publica, enlarged by annotations selected from the Late Platonist commentary by Macrobius</description>
+    </item>
+    <item>
+      <title>Sorting</title>
+      <link>http://localhost:1313/notes/data-structures-and-algorithms/sorting/</link>
+      <pubDate>Sat, 09 Aug 2025 13:19:56 +0100</pubDate>
+      <guid>http://localhost:1313/notes/data-structures-and-algorithms/sorting/</guid>
+      <description>Putting everything in order.</description>
+    </item>
+    <item>
+      <title>Complete Search</title>
+      <link>http://localhost:1313/notes/data-structures-and-algorithms/complete-search/</link>
+      <pubDate>Sat, 09 Aug 2025 13:19:33 +0100</pubDate>
+      <guid>http://localhost:1313/notes/data-structures-and-algorithms/complete-search/</guid>
+      <description>Brute forcing your way to the truth.</description>
+    </item>
+    <item>
+      <title>Graph Traversal</title>
+      <link>http://localhost:1313/notes/data-structures-and-algorithms/graph-traversal/</link>
+      <pubDate>Sat, 09 Aug 2025 13:19:20 +0100</pubDate>
+      <guid>http://localhost:1313/notes/data-structures-and-algorithms/graph-traversal/</guid>
+      <description>Everything you wanted to know about going down and along trees</description>
+    </item>
+    <item>
+      <title>Greedy Algorithms</title>
+      <link>http://localhost:1313/notes/data-structures-and-algorithms/greedy-algorithms/</link>
+      <pubDate>Sat, 09 Aug 2025 13:18:02 +0100</pubDate>
+      <guid>http://localhost:1313/notes/data-structures-and-algorithms/greedy-algorithms/</guid>
+      <description>Constructing solutions by making locally optimal choices</description>
+    </item>
+    <item>
+      <title>How Do Containers Actually Work</title>
+      <link>http://localhost:1313/notes/how-do-containers-actually-work/</link>
+      <pubDate>Sat, 09 Aug 2025 13:03:31 +0100</pubDate>
+      <guid>http://localhost:1313/notes/how-do-containers-actually-work/</guid>
+      <description>Putting some detail on the magic box abstraction.</description>
+    </item>
+  </channel>
+</rss>
