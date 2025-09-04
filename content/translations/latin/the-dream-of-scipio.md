@@ -65,7 +65,6 @@ Syria, Asia Minor and Greece, you will be elected Consul a second time though
 abroad; and you will bring a most important war to its close, you will utterly
 destroy Numantia. But when you ride in your car of triumph to the Capitol, you
 will find the state sorely troubled by the plotting of my own grandson.
-§
 Here, Africanus, you must display to the fatherland the light of your courage,
 genius and wisdom.
 
